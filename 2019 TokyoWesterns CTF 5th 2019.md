@@ -15,11 +15,10 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 
 2019/08/31 早上八点 — 2019/09/02 早上八点
 
-
 ---
 # 签到
 
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_8f14f2b3a450b8935b26da424f52fa25.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_8f14f2b3a450b8935b26da424f52fa25.png)
 
 
 
@@ -28,15 +27,16 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 ## j2x2j | open | SOLVED: mote
 
 xxe
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_ef5b2b565a32c83fb14bcafbbe6917a1.png)
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_c0adfaaa9c1b7128c85ed93ff44d1cec.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_ef5b2b565a32c83fb14bcafbbe6917a1.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_c0adfaaa9c1b7128c85ed93ff44d1cec.png)
+
 ```
 <?php
 include 'flag.php';
 
 ```
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_21245d843423e71fade98b74cc984a4d.png)
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_40dcb1f48a1e18b09937566874a5b2a4.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_21245d843423e71fade98b74cc984a4d.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_40dcb1f48a1e18b09937566874a5b2a4.png)
 
 
 
@@ -63,13 +63,13 @@ public function getflag() {
 
 
 cookie中的note的值为序列化后base64
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_7424d381a37cd1cfd3b3b61ec7b22b86.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_7424d381a37cd1cfd3b3b61ec7b22b86.png)
 
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_7cc5623e0f066d9d55ccd68ba3c91066.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_7cc5623e0f066d9d55ccd68ba3c91066.png)
 在首页post数据，调用note对象的addnote方法
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_385d8739e3ab48ef336720c6de83236a.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_385d8739e3ab48ef336720c6de83236a.png)
 用array_push，用键值对存放
-![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_1211fa38a688f62591ec3a95626e88fc.png)
+![](2019 TokyoWesterns CTF 5th 2019.assets/upload_1211fa38a688f62591ec3a95626e88fc.png)
 如果校验通过，就进行反序列化，否则$note::isadmin置为false
 
 
@@ -515,16 +515,6 @@ def pwn():
 if __name__ == "__main__":
     pwn()
 ```
-
-
-# MISC
-
-## test | solved | working: wang
-
-haha1
-测试
-
-喂喂喂
 
 
 
