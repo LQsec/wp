@@ -18,7 +18,7 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 ---
 # 签到
 
-![](./2019 TokyoWesterns CTF 5th 2019.assets/upload_8f14f2b3a450b8935b26da424f52fa25.png)
+![1](2019 TokyoWesterns CTF 5th 2019.assets/upload_8f14f2b3a450b8935b26da424f52fa25.png)
 
 
 
@@ -27,8 +27,8 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 ## j2x2j | open | SOLVED: mote
 
 xxe
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_ef5b2b565a32c83fb14bcafbbe6917a1.png)
-![](2019 TokyoWesterns CTF 5th 2019.assets/upload_c0adfaaa9c1b7128c85ed93ff44d1cec.png)
+![2](2019 TokyoWesterns CTF 5th 2019.assets/upload_ef5b2b565a32c83fb14bcafbbe6917a1.png)
+![3](2019 TokyoWesterns CTF 5th 2019.assets/upload_c0adfaaa9c1b7128c85ed93ff44d1cec.png)
 
 ```
 <?php
