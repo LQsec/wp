@@ -18,7 +18,7 @@ https://score.ctf.westerns.tokyo/problems?locale=en
 ---
 # 签到
 
-![1](2019 TokyoWesterns CTF 5th 2019.assets/upload_8f14f2b3a450b8935b26da424f52fa25.png)
+![upload_8f14f2b3a450b8935b26da424f52fa25](2019 TokyoWesterns CTF 5th 2019.assets/upload_8f14f2b3a450b8935b26da424f52fa25.png)
 
 
 
