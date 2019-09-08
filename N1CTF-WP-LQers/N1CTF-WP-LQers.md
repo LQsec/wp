@@ -694,85 +694,7 @@ int main()
 
 ```
 
-## SimpleVM
 
-找到了一些AES算法特征
-
-```
-.rodata:0551EE0	0400	Rijndael Td4 (0x52525252U) [32.le.1024]
-.rodata:05522E0	0400	Rijndael Td3 (0xf4a75051U) [32.le.1024]
-.rodata:05526E0	0400	Rijndael Td2 (0xa75051f4U) [32.le.1024]
-.rodata:0552AE0	0400	Rijndael Td1 (0x5051f4a7U) [32.le.1024]
-.rodata:0552EE0	0400	Rijndael Td0 (0x51f4a750U) [32.le.1024]
-.rodata:05532E0	0400	Rijndael Te4 (0x63636363U) [32.le.1024]
-.rodata:05536E0	0400	Rijndael Te3 (0x6363a5c6U) [32.le.1024]
-.rodata:0553AE0	0400	Rijndael Te2 (0x63a5c663U) [32.le.1024]
-.rodata:0553EE0	0400	Rijndael Te1 (0xa5c66363U) [32.le.1024]
-.rodata:05542E0	0400	Rijndael Te0 (0xc66363a5U) [32.le.1024]
-.rodata:0555700	0100	AES Rijndael Si / ARIA X1 [..256]
-.rodata:0555800	0100	AES Rijndael S / ARIA S1 [..256]
-```
-
-在函数`main->sub_404A60->sub_4072B0`中初始化VM
-
-```
-  *(_QWORD *)(a2 + 200) = sub_406E00;
-  *(_QWORD *)(a2 + 208) = sub_406FC0;
-  *(_QWORD *)(a2 + 216) = sub_406DB0;
-  *(_QWORD *)(a2 + 248) = sub_406C70;
-  *(_QWORD *)(a2 + 256) = sub_406CA0;
-  *(_QWORD *)(a2 + 240) = sub_4071B0;
-  *(_QWORD *)(a2 + 192) = sub_406CC0;
-  sub_4446D0(a2);
-  v5 = *(_QWORD *)(a2 + 240) == 0LL;
-  *(_DWORD *)(a2 + 1928) = 1024;
-  *(_DWORD *)(a2 + 1932) = 1023;
-  *(_QWORD *)(a2 + 224) = sub_406C50;
-  *(_QWORD *)(a2 + 232) = sub_406C30;
-  *(_QWORD *)(a2 + 288) = sub_413B50;
-  *(_QWORD *)(a2 + 296) = sub_4139B0;
-  *(_QWORD *)(a2 + 272) = sub_43DBE0;
-  *(_QWORD *)(a2 + 280) = sub_431BC0;
-  *(_QWORD *)(a2 + 304) = sub_4422F0;
-  *(_QWORD *)(a2 + 312) = sub_4423F0;
-  *(_QWORD *)(a2 + 320) = sub_443030;
-  result = sub_4428B0;
-  *(_QWORD *)(a2 + 328) = sub_4428B0;
-```
-
-是unicorn。主函数如下
-
-```
- v13 = __readfsqword(0x28u);
-  new_rsp = 0x12FFFC;
-  uc_open(UC_ARCH_ARM, UC_MODE_LITTLE_ENDIAN, &uc);
-  uc_mem_map(uc, 0LL, 0x20000LL, UC_PROT_ALL);
-  uc_mem_map(uc, 0x25000uLL, 0x1000LL, UC_PROT_ALL);
-  v5 = uc_mem_map(uc, 0x30000uLL, 0x100000LL, UC_PROT_ALL);
-  uc_reg_write(uc, UC_ARM_REG_SP, &new_rsp);
-  uc_mem_write(uc, 0x6A0LL, vmcode, 0x634uLL);
-  uc_hook_add(uc, &trace1, UC_HOOK_CODE, sub_4044B6, 0LL, 1LL, 0LL, v3);
-  uc_hook_add(
-    uc,
-    &trace2,
-    UC_HOOK_MEM_FETCH_UNMAPPED|UC_HOOK_MEM_WRITE_UNMAPPED|UC_HOOK_MEM_READ_UNMAPPED,
-    sub_4044CC,
-    0LL,
-    1LL,
-    0LL,
-    v0);
-  uc_hook_add(uc, &trace3, UC_HOOK_INTR, getFlag, 0LL, 1LL, 0LL, v1);
-  v5 = uc_emu_start(uc, 0x7A0LL, 0x20000LL, 0LL, 0LL);
-  v10 = 0LL;
-  v11 = 0;
-  v12 = 0;
-  uc_mem_read(uc, 0x25000LL, &v10, 0xAuLL);
-  printf("Your flag is  : N1CTF{%s}\n", &v10);
-  uc_close(uc);
-
-```
-
-uc_open->arm_uc_init中修改了源码。
 
 
 
@@ -780,7 +702,7 @@ uc_open->arm_uc_init中修改了源码。
 
 # PWN
 
-## one_heap
+## warmup
 
 菜单堆，uaf、tcache、IO_stdout组合题，限制0x40 size比较恶心
 
@@ -1256,12 +1178,12 @@ Nmap done: 1 IP address (1 host up) scanned in 68.61 seconds
 10.0.0.85:40460         10.0.0.88:80            ESTABLISHED
 ```
 
-真贴心，nmap,python2跟3都装好了
+真贴心，nmap都装好了
 
 用ssh建立一个socks5代理，将端口转发出来，方便操作
 
 ```
-socks5://123.206.176.165:62333
+socks5://xxx.xxx.xxx.xxx:xxxxxx
 ```
 
 ```
@@ -1354,7 +1276,7 @@ public function getcode()
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 # @Date    : 2019-09-06 21:16:35
-# @Author  : Mote(mrzhangsec@163.com)
+
 import requests
 import re
 import hashlib
